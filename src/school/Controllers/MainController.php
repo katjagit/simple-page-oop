@@ -2,27 +2,25 @@
 
 namespace school\Controllers;
 
+use school\Models\Courses\Course;
 use school\View\View;
-use school\Services\Db;
 
 class MainController
 {
     /** @var View  */
     private $view;
 
-    /** @var Db */
-    private $db;
-
     public function __construct()
     {
         $this->view = new View(__DIR__ . '/../../../templates');
-        $this->db = new Db();
     }
 
     public function main()
     {
-        $courses = $this->db->query('SELECT * FROM `courses`;');
-        var_dump($courses);
+        $courses = Course::findAll();
+
+        $this->view->renderHtml('main/main.php', ['courses' => $courses]);
+
     }
 
     public function sayHello(string $name)
